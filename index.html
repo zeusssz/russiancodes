@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nukes by Russia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: black;
+            color: green;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        #container {
+            margin-top: 100px;
+        }
+        #codeDisplay {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .codeItem {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        button {
+            font-family: 'Press Start 2P', cursive;
+            padding: 10px 20px;
+            background-color: green;
+            color: black;
+            border : none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: black;
+            color: green;
+            border: 1px solid #0dff00;
+        }
+        h1::after {
+            content: '_';
+            display: inline-block;
+            animation: blip 1s infinite;
+        }
+        @keyframes blip {
+            50% {
+                opacity: 0;
+            }
+        }
+        .footer-text {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Russian Nuclear Codes Generator</h1>
+        <button onclick="generateCodes()">Generate Codes</button>
+        <div id="codeDisplay"></div>
+    </div>
+    <div class="footer-text">Provided by Putin <div>Generator Courtesy of Vent Bistro</div></div>
+    <script>
+        function generateRandomCode(length) {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|[]\\;\',./?><';
+            var code = '';
+            for (var i = 0; i < length; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        function flipCode(element, codeNumber, finalCode, delay) {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|[]\\;\',./?><';
+            var currentIndex = 0;
+            var flipInterval = setInterval(function() {
+                var currentCode = '';
+                for (var i = 0; i < finalCode.length; i++) {
+                    if (i <= currentIndex) {
+                        currentCode += finalCode[i];
+                    } else {
+                        currentCode += characters.charAt(Math.floor(Math.random() * characters.length));
+                    }
+                }
+                element.textContent = 'Code ' + codeNumber + ': ' + currentCode;
+                currentIndex++;
+                if (currentIndex >= finalCode.length) {
+                    clearInterval(flipInterval);
+                    element.textContent = 'Code ' + codeNumber + ': ' + finalCode;
+                    element.classList.remove('flipping');
+                    element.classList.add('finalCode');
+                }
+            }, delay);
+        }
+
+        function generateCodes() {
+            var numCodes = prompt("Enter the number of codes:");
+            var codeDisplay = document.getElementById('codeDisplay');
+            codeDisplay.innerHTML = '';
+
+            if (numCodes === null || numCodes === "") {
+                alert("Please enter a valid number of codes.");
+                return;
+            }
+
+            numCodes = parseInt(numCodes);
+
+            if (isNaN(numCodes) || numCodes <= 0) {
+                alert("Please enter a valid number greater than 0.");
+                return;
+            }
+
+            for (var i = 0; i < numCodes; i++) {
+                (function(index) {
+                    setTimeout(function() {
+                        var code = generateRandomCode(30); 
+                        var codeElement = document.createElement('p');
+                        codeElement.classList.add('codeItem', 'flipping');
+                        codeDisplay.appendChild(codeElement);
+                        flipCode(codeElement, index + 1, code, 100);
+                    }, i * 1000); 
+                })(i);
+            }
+        }
+    </script>
+</body>
+</html>
