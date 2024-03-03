@@ -17,6 +17,9 @@
             padding: 0;
             position: relative;
         }
+        ::selection {
+            background-color: #0dff00; 
+        }
         #container {
             margin-top: 100px;
         }
@@ -37,6 +40,7 @@
             }
         }
         button {
+            user-select: none; 
             font-family: 'Press Start 2P', cursive;
             padding: 10px 20px;
             background-color: green;
